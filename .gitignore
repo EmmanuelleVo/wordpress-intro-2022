@@ -6,3 +6,7 @@ wp-content/*
 !wp-content/themes
 wp-content/themes/*
 !wp-content/themes/dw
+
+!README.md
+!package.json
+!webpack.mix.js
