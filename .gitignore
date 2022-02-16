@@ -10,3 +10,4 @@ wp-content/themes/*
 !README.md
 !package.json
 !webpack.mix.js
+!database.sql
