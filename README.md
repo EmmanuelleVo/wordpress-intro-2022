@@ -13,3 +13,4 @@
 ### Plugins à installer
 
 - ACF
+- Contact Form 7
