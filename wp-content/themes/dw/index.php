@@ -49,8 +49,10 @@
                         <div class="trip__card">
                             <header class="trip__head">
                                 <h3 class="trip__title"><?= get_the_title() ?></h3>
-                                <p class="trip__meta">Le
-                                    <time class="post__date" datetime="">01/01/0001</time>
+                                <p class="trip__meta">
+                                    <time class="post__date" datetime="<?= date('c', strtotime(get_field('departure_date', false, false))) ?>">
+                                        <?= ucwords(date_i18n('F, Y', strtotime(get_field('departure_date', false, false)))) ?>
+                                    </time>
                                 </p>
                             </header>
                             <figure class="trip__fig">
