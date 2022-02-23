@@ -56,7 +56,7 @@
                                 </p>
                             </header>
                             <figure class="trip__fig">
-	                            <?= get_the_post_thumbnail( null, 'medium', [
+	                            <?= get_the_post_thumbnail( null, 'large', [
 		                            'class' => 'trip__thumb',
 	                            ] ) ?>
                             </figure>

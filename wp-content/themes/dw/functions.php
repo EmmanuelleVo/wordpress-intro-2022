@@ -17,7 +17,8 @@ register_post_type('trip', [
     'public' => true, // accessible dans l'affichage et dans l'interface admin (formulaire de contact : false)
     'menu_position' => 5,
     'menu_icon' => 'dashicons-palmtree', // https://developer.wordpress.org/resource/dashicons/#share-alt
-	'supports' => ['thumbnail', 'title', 'editor'] // préciser qu'on veut avoir une thumbnail pour chaque custom_post_type (ligne 7)
+	'supports' => ['thumbnail', 'title', 'editor'], // préciser qu'on veut avoir une thumbnail pour chaque custom_post_type (ligne 7)
+	'rewrite' => ['slug' => 'voyages'], // changer le slug de l'URL
 ]);
 
 // Récupérer les trips via une requête WordPress pour ne pas polluer notre HTML

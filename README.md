@@ -9,3 +9,7 @@
 4. Créer une base de données.
 5. Configurer le fichier `wp-config.php` (et s'il n'existe pas, le créer à partir de `wp-config-sample.php`)
 6. Importer le fichier `database.sql` dans la base de données(mis à jour régulièrement pendant la phase de développement uniquement).
+
+### Plugins à installer
+
+- ACF
