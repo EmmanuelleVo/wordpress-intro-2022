@@ -2,6 +2,24 @@
 
 //require_once(__DIR__ . '/Menus/PrimaryMenuWalker.php');
 require_once( __DIR__ . '/Menus/PrimaryMenuItem.php' );
+require_once (__DIR__ . '/Forms/BaseFormController.php');
+require_once (__DIR__ . '/Forms/ContactFormController.php');
+require_once (__DIR__ . '/Forms/Sanitizers/BaseSanitizer.php');
+require_once (__DIR__ . '/Forms/Sanitizers/TextSanitizer.php');
+require_once (__DIR__ . '/Forms/Sanitizers/EmailSanitizer.php');
+require_once (__DIR__ . '/Forms/Validators/BaseValidator.php');
+require_once (__DIR__ . '/Forms/Validators/RequiredValidator.php');
+require_once (__DIR__ . '/Forms/Validators/EmailValidator.php');
+require_once (__DIR__ . '/Forms/Validators/AcceptedValidator.php');
+
+// Lancer la session PHP
+add_action('init', 'dw_init_php_session', 1);
+
+function dw_init_php_session() {
+	if ( ! session_id() ) {
+		session_start();
+	}
+}
 
 // Désactiver l'éditeur "Gutenberg" de Wordpress
 add_filter( 'use_block_editor_for_post', '__return_false' );
@@ -112,86 +130,34 @@ function dw_get_menu_items( $location ) {
 	return $links;
 }
 
+
 // Enregistrer le traitement du formulaire de contact personnalisé
 
 add_action( 'admin_post_submit_contact_form', 'dw_handle_submit_contact_form' );
 
 function dw_handle_submit_contact_form() {
 
-	if ( ! dw_verify_contact_form_nonce() ) {
-		//TODO : afficher un message d'erreur : "unauthorized access"
-		return;
-	}
-
-	$data = dw_sanitize_contact_form_data();
-
-	if ( $errors = dw_validate_contact_form_data( $data ) ) {
-		//TODO : toutes les erreurs de validation
-		return;
-	}
-
-	// Stocker en DB
-	$id = wp_insert_post( [
-		'post_type'    => 'message',
-		'post_title'   => 'Message de ' . $data['firstname'] . ' ' . $data['lastname'],
-		'post_content' => $data['message'],
-		'post_status'  => 'publish'
-	] );
-	// Envoyer un mail
-	$content = 'Bonjour, un nouveau message de contact à été envoyé. <br>';
-	$content .= 'Pour le visualiser : ' . get_edit_post_link( $id );
-	wp_mail( 'thienan_vo@live.be', 'Nouveau message', $content );
-	// TODO : configurer serveur mail (ex: mailgun - plugin)
-
+	$form = new ContactFormController($_POST);
 
 }
 
-function dw_verify_contact_form_nonce() {
-	$nonce = $_POST['_wpnonce'];
 
-	return wp_verify_nonce( $nonce, 'nonce_check_contact_form' );
+function dw_get_contact_field_value($field) {
+	if (!isset($_SESSION['feedback_contact_form'])) {
+		return '';
+	}
+	return $_SESSION['feedback_contact_form']['data'][$field] ?? '';
 }
 
-function dw_sanitize_contact_form_data() {
-	return [
-		'firstName' => sanitize_text_field( $_POST['firstName'] ?? null ),
-		'lastName'  => sanitize_text_field( $_POST['lastName'] ?? null ),
-		'email'     => sanitize_email( $_POST['email'] ?? null ),
-		'phone'     => sanitize_text_field( $_POST['phone'] ?? null ), //TODO
-		'message'   => sanitize_text_field( $_POST['message'] ?? null ),
-		'rules'     => $_POST['rules'] ?? null,
-	];
-}
+function dw_get_contact_field_error($field) {
 
-function dw_validate_contact_form_data( $data ) {
-
-	$errors = [];
-
-	//TODO : validation
-	/*if ( $firstName && $lastName && $email && $message ) {
-	if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-	if ( ( $_POST['rules'] ?? null ) === '1' ) {*/
-
-	$required = [ 'firstname', 'lastname', 'email', 'message' ];
-	$email    = [ 'email' ];
-	$accepted = [ 'rules' ];
-
-	foreach ( $data as $key => $value ) {
-		if ( in_array( $key, $required ) && ! $value ) {
-			$errors[ $key ] = 'required';
-			continue;
-		}
-
-		if ( in_array( $key, $email ) && ! filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
-			$errors[ $key ] = 'email';
-			continue;
-		}
-
-		if ( in_array( $key, $accepted ) && $value == ! '1' ) {
-			$errors[ $key ] = 'accepted';
-			continue;
-		}
+	if (!isset($_SESSION['feedback_contact_form'])) {
+		return '';
 	}
 
-	return $errors ? $errors : false;
+	if (!($_SESSION['feedback_contact_form']['errors'][$field] ?? null)) {
+		return '';
+	}
+
+	return '<p class="form__error">Problème : '. $_SESSION['feedback_contact_form']['errors'][$field] . '</p>';
 }
