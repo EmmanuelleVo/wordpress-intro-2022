@@ -131,6 +131,9 @@ function dw_get_menu_items( $location ) {
 }
 
 
+
+
+
 // Enregistrer le traitement du formulaire de contact personnalisé
 
 add_action( 'admin_post_submit_contact_form', 'dw_handle_submit_contact_form' );
@@ -140,7 +143,6 @@ function dw_handle_submit_contact_form() {
 	$form = new ContactFormController($_POST);
 
 }
-
 
 function dw_get_contact_field_value($field) {
 	if (!isset($_SESSION['feedback_contact_form'])) {

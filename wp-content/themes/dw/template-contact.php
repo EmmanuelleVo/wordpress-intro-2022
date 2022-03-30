@@ -8,7 +8,7 @@
         <?php if(! isset($_SESSION['feedback_contact_form']) || !$_SESSION['feedback_contact_form']['success']): ?>
         <form class="contact__form" action="<?= get_home_url() ?>/wp-admin/admin-post.php" method="post">
             <?php if(isset($_SESSION['feedback_contact_form']) && !$_SESSION['feedback_contact_form']['success']): ?>
-                <p class="form__errors">Ce formulaire contiet des erreurs, merci de les corriger.</p>
+                <p class="form__errors">Ce formulaire contient des erreurs, merci de les corriger.</p>
             <?php endif;?>
             <div class="form__field">
                 <label for="firstname" class="form__label">Votre prénom</label>

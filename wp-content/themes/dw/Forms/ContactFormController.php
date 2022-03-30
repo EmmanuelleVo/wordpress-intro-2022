@@ -17,6 +17,17 @@ class ContactFormController extends BaseFormController {
 		];
 	}
 
+	protected function redirectWithErrors($errors)
+	{
+		$_SESSION['feedback_contact_form'] = [
+			'success' => false,
+			'data' => $this->data,
+			'errors' => $errors
+		];
+
+		return wp_safe_redirect(($this->data['_wp_http_referer'] ?? ''), 302);
+	}
+
 	protected function getValidatableAttributes(): array {
 		return [
 			'firstname' => [RequiredValidator::class],
@@ -27,16 +38,6 @@ class ContactFormController extends BaseFormController {
 			];
 	}
 
-	protected function redirectWithErrors( $errors )
-	{
-		$_SESSION['feedback_contact_form'] = [
-			'success' => false,
-			'data' => $this->data,
-			'errors' => $errors,
-		];
-		// status 302 = redirection temporaire (défault) et status 301 = redirection permanente
-		return wp_safe_redirect(($this->data['_wp_http_referer'] ?? '') . '#contact', 302);
-	}
 
 	protected function handle() {
 		// Traitement //
