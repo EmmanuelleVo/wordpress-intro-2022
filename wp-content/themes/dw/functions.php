@@ -163,3 +163,40 @@ function dw_get_contact_field_error($field) {
 
 	return '<p class="form__error">Problème : '. $_SESSION['feedback_contact_form']['errors'][$field] . '</p>';
 }
+
+/*
+ * Utilitaire pour charger un fichier compilé par mix avec cache bursting
+ */
+
+function dw_mix($path) {
+	// $path = 'js/script.js';
+	// return get_stylesheet_directory_uri() . '/public/' . $path;
+
+	$path = '/' . ltrim($path, '/');
+
+	// Check si fichier demandé existe
+
+	if(! realpath(__DIR__ . '/public' . $path)) {
+		return;
+	}
+
+	// Check si fichier mix-manifeste existe, sinon retourner le fichier sans cache bursting
+
+	if(! ($manifest = realpath(__DIR__ . '/public/mix-manifest.json'))) {
+		return get_stylesheet_directory_uri() . '/public' . $path;
+	}
+
+	// Ouvrir le fichier mix-manifeste et lire le JSON
+
+	$manifest = json_decode(file_get_contents($manifest), true);
+
+	// Check si fichier demandé est présent dans le mix-manifeste, sinon retourner le fichier sans cache bursting
+
+	if(!array_key_exists($path, $manifest)) {
+		return get_stylesheet_directory_uri() . '/public' . $path;
+	}
+
+	// C'est OK, on génère l'URL vers la ressource sur base du nom de fichier avec cache bursting
+
+	return get_stylesheet_directory_uri() . '/public' . $manifest[$path];
+}
