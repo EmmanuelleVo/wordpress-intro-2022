@@ -6,8 +6,10 @@ wp-content/*
 !wp-content/themes
 wp-content/themes/*
 !wp-content/themes/dw
+wp-content/themes/dw/public
 
 !README.md
 !package.json
+!package-lock.json
 !webpack.mix.js
 !database.sql
