@@ -11,6 +11,7 @@ require_once (__DIR__ . '/Forms/Validators/BaseValidator.php');
 require_once (__DIR__ . '/Forms/Validators/RequiredValidator.php');
 require_once (__DIR__ . '/Forms/Validators/EmailValidator.php');
 require_once (__DIR__ . '/Forms/Validators/AcceptedValidator.php');
+require_once (__DIR__ . '/CustomSearchQuery.php');
 
 // Lancer la session PHP
 add_action('init', 'dw_init_php_session', 1);
@@ -69,18 +70,25 @@ register_post_type( 'message', [
 
 
 // Récupérer les trips via une requête WordPress pour ne pas polluer notre HTML
-function dw_get_trips( $postPerPage = 5 ) {
+function dw_get_trips( $postPerPage = 5, $search = null ) {
 	// On instancie l'objet WP_QUERY
-	$trips = new WP_Query( [
+	$trips = new DW_CustomSearchQuery( [
 		'post_type'      => 'trip',
 		'posts_per_page' => $postPerPage,
 		'orderby'        => 'date',
 		'order'          => 'desc',
+		's'              => strlen($search) ? $search : null,
 	] );
+
+	if($search) {
+		// TODO : ajouter la recherche à la query
+		$trips->set('s', $search);
+	}
 
 	// On retourne l'objet WP_QUERY
 	return $trips;
 }
+
 
 // Enregistrer les menus de navigation
 
@@ -200,3 +208,19 @@ function dw_mix($path) {
 
 	return get_stylesheet_directory_uri() . '/public' . $manifest[$path];
 }
+
+
+/*
+ * On va se plugger dans l'exécution de la requête de recherche pour la contraindre à chercher dans les articles uniquement
+ */
+
+function dw_configure_search_query($query) {
+
+	if($query->is_search && !is_admin() && !is_a($query, DW_CustomSearchQuery::class)) {
+		$query->set('post_type', ['post', /*'trip'*/]);
+	}
+
+	return $query;
+}
+
+add_filter('pre_get_posts', 'dw_configure_search_query');
