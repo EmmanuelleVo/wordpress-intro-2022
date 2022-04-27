@@ -78,6 +78,7 @@ function dw_get_trips( $postPerPage = 5, $search = null ) {
 		'orderby'        => 'date',
 		'order'          => 'desc',
 		's'              => strlen($search) ? $search : null,
+		// recherche plus précis ou exact
 	] );
 
 	if($search) {
@@ -224,3 +225,15 @@ function dw_configure_search_query($query) {
 }
 
 add_filter('pre_get_posts', 'dw_configure_search_query');
+
+/*
+ * Fonction permettant d'inclure des composants et d'y injecter des variables locales (scope de l'appel de la fonction)
+ */
+
+function dw_include(string $partial, array $variables = []) {
+
+	extract($variables); // $modifier = 'search'
+
+
+	include(__DIR__ . '/partials/' . $partial . '.php');
+}

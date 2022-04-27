@@ -5,28 +5,7 @@
 		<h2 class="results__title">Les articles correspondant à votre recherche</h2>
 		<div class="results__container">
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-				<article class="post">
-					<a href="<?= get_the_permalink() ?>" class="post__link">Lire l'article "<?= get_the_title() ?>
-						"</a>
-					<div class="post__card">
-						<header class="post__head">
-							<h3 class="post__title"><?= get_the_title() ?></h3>
-							<p class="post__meta">Publié par <?= get_the_author() ?>, le
-								<time class="post__date"
-								      datetime="<?= get_the_date( 'c' ) ?>"><?= get_the_date() ?></time>
-							</p>
-						</header>
-						<figure class="post__fig">
-							<?= get_the_post_thumbnail( null, 'medium', [
-								'class' => 'post__thumb',
-								'id'    => 'test'
-							] ) ?>
-						</figure>
-						<div class="post__excerpt">
-							<p><?= get_the_excerpt() ?></p>
-						</div>
-					</div>
-				</article>
+				<?php dw_include('post', ['modifier' => 'search']); ?>
 			<?php endwhile; else : ?>
 				<p class="results__empty">Il n'y a pas de résultat pour votre recherche</p>
 			<?php endif; ?>
@@ -37,27 +16,7 @@
 		<h2 class="results__title">Les récits correspondant à votre recherche</h2>
 		<div class="results__container">
 	<?php if (($trips = dw_get_trips(3, get_search_query()))->have_posts() ) : while ($trips->have_posts() ) : $trips->the_post(); ?>
-        <article class="trip">
-            <a href="<?= get_the_permalink() ?>" class="trip__link">Lire l'article "<?= get_the_title() ?>"</a>
-            <div class="trip__card">
-                <header class="trip__head">
-                    <h3 class="trip__title"><?= get_the_title() ?></h3>
-                    <p class="trip__meta">
-                        <time class="post__date" datetime="<?= date('c', strtotime(get_field('departure_date', false, false))) ?>">
-							<?= ucwords(date_i18n('F, Y', strtotime(get_field('departure_date', false, false)))) ?>
-                        </time>
-                    </p>
-                </header>
-                <figure class="trip__fig">
-					<?= get_the_post_thumbnail( null, 'large', [
-						'class' => 'trip__thumb',
-					] ) ?>
-                </figure>
-                <div class="trip__excerpt">
-                    <p><?= get_the_excerpt() ?></p>
-                </div>
-            </div>
-        </article>
+		<?php dw_include('trip', ['modifier' => 'search']); ?>
 	<?php endwhile; else : ?>
         <p class="trips__empty">Il n'y a pas encore de voyage</p>
 	<?php endif; ?>
