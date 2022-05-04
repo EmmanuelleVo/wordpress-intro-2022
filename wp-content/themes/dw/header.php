@@ -40,6 +40,12 @@
                     </li>
 				<?php endforeach; ?>
             </ul>
+            <div class="nav__languages">
+                <?php foreach(pll_the_languages(['raw' => true]) as $code => $locale): ?>
+
+                    <a lang="<?= $locale['locale'] ?>" hreflang="<?= $locale['locale'] ?>" href="<?= $locale['url'] ?>" title="<?= $locale['name'] ?>" class="nav__locale"><?= strtoupper($code) ?></a>
+                <?php endforeach; ?>
+            </div>
         </nav>
         <form class="header__search search" method="get" action="<?= get_home_url() ?>" role="search">
             <div class="search__container">
