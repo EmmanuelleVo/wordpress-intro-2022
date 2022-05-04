@@ -234,6 +234,5 @@ function dw_include(string $partial, array $variables = []) {
 
 	extract($variables); // $modifier = 'search'
 
-
 	include(__DIR__ . '/partials/' . $partial . '.php');
 }
