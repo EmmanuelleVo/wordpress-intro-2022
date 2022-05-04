@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,6 +8,7 @@
     <title><?= get_bloginfo( 'name' ) ?></title>
     <link rel="stylesheet" href="<?= dw_mix( 'css/style.css' ) ?>" type="text/css">
     <script src="<?= dw_mix( 'js/script.js' ) ?>" type="text/javascript"></script>
+    <?php wp_head(); ?>
 </head>
 <body data-translations="">
 <header class="header">
