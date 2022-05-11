@@ -1,4 +1,4 @@
-<?php /* Template Name: Contact */ ?>
+<?php /* Template Name: template-contact */ ?>
 <?php get_header() ?>
     <main class="layout contact">
         <h2 class="layout__title"><?= get_the_title() ?></h2>

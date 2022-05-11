@@ -42,6 +42,9 @@
                     </li>
 				<?php endforeach; ?>
             </ul>
+            <div class="nav__cta">
+                <a href="<?= get_permalink(dw_get_template_page('template-contact')) ?>" class="nav__contact"><?= __('Prendre contact', 'dw') ?></a>
+            </div>
             <div class="nav__languages">
                 <?php foreach(pll_the_languages(['raw' => true]) as $code => $locale): ?>
                     <a lang="<?= $locale['locale'] ?>" hreflang="<?= $locale['locale'] ?>" href="<?= $locale['url'] ?>" title="<?= $locale['name'] ?>" class="nav__locale"><?= strtoupper($code) ?></a>

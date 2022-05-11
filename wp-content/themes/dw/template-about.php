@@ -1,4 +1,4 @@
-<?php /* Template Name: About */ ?>
+<?php /* Template Name: template-about */ ?>
 <?php get_header() ?>
 <main class="layout about">
 	<h2 class="layout__title"><?= get_the_title() ?></h2>

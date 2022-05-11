@@ -53,7 +53,6 @@ register_post_type( 'trip', [
 
 ] );
 
-
 register_post_type( 'message', [
 	'label'         => 'Messages de contact',
 	'labels'        => [
@@ -257,8 +256,23 @@ function dw_include(string $partial, array $variables = []) {
 	include(__DIR__ . '/partials/' . $partial . '.php');
 }
 
+// Fonction permettant de récupérer la première page appartenant à un template donné
+function dw_get_template_page(string $template) {
+	// Créer un WP_Query
+	$query = new WP_Query([
+		// Filtrer sur le post type de type 'page'
+		'post_type' => 'page',
+		// Uniquement les pages publiée
+		'post_status' => 'publish',
+		// Filtrer sur le type de template utilisé
+		'meta_query' => [
+			['key' => '_wp_page_template', 'value' => $template . '.php']
+		],
+	]);
 
-
+	// Retourner la première occurrance pour cette requête ou null
+	return $query->posts[0] ?? null;
+}
 
 
 
