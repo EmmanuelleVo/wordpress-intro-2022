@@ -19,6 +19,7 @@
 
         <section class="layout__trips trips">
             <h2 class="trips__title"><?= __('Mes derniers voyages', 'dw') ?></h2>
+            <a href="<?= get_post_type_archive_link('trip') ?>" class="trips__all"><?= __('Voir tous les voyages', 'dw') ?></a>
             <div class="trips__container">
                 <?php
                 $trips = dw_get_trips(3);

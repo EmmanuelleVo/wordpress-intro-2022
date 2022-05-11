@@ -50,6 +50,7 @@ register_post_type( 'trip', [
 	'rewrite'       => [ 'slug' => 'voyages' ],
 	// changer le slug de l'URL
 	'has_archive' => true,
+
 ] );
 
 
@@ -153,9 +154,6 @@ function dw_get_menu_items( $location ) {
 	// 4. Retourner les éléments de niveau 0
 	return $links;
 }
-
-
-
 
 
 // Enregistrer le traitement du formulaire de contact personnalisé
