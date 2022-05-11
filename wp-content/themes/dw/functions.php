@@ -49,6 +49,7 @@ register_post_type( 'trip', [
 	// préciser qu'on veut avoir une thumbnail pour chaque custom_post_type (ligne 7)
 	'rewrite'       => [ 'slug' => 'voyages' ],
 	// changer le slug de l'URL
+	'has_archive' => true,
 ] );
 
 
@@ -71,6 +72,17 @@ register_post_type( 'message', [
 	// TODO hook : afficher du code html avec les infos au lieu d'un wysiwyg
 ] );
 
+
+// Enregistrer une taxonomie (façon de classifier es posts pour les pays où des voyages ont eu lieu)
+register_taxonomy('country', ['trip'], [
+	'labels' => [
+		'name' => 'Pays',
+		'singular-name' => 'Pays',
+	],
+	'description' => 'Pays visités et exploités dans nos récits de voyages',
+	 'public' => true,
+	'hierarchical' => true,
+]);
 
 // Récupérer les trips via une requête WordPress pour ne pas polluer notre HTML
 function dw_get_trips( $postPerPage = 5, $search = null ) {
@@ -239,5 +251,9 @@ function dw_include(string $partial, array $variables = []) {
 
 	include(__DIR__ . '/partials/' . $partial . '.php');
 }
+
+
+
+
 
 

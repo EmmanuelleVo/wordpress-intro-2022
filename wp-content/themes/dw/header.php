@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="<?= __('fr', 'dw') ?>>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<?= dw_mix( 'css/style.css' ) ?>" type="text/css">
     <script src="<?= dw_mix( 'js/script.js' ) ?>" type="text/javascript"></script>
     <?php wp_head(); ?>
+    <!--Essayer de se passer de wp_head()-->
 </head>
 <body data-translations="">
 <header class="header">
@@ -43,7 +44,6 @@
             </ul>
             <div class="nav__languages">
                 <?php foreach(pll_the_languages(['raw' => true]) as $code => $locale): ?>
-
                     <a lang="<?= $locale['locale'] ?>" hreflang="<?= $locale['locale'] ?>" href="<?= $locale['url'] ?>" title="<?= $locale['name'] ?>" class="nav__locale"><?= strtoupper($code) ?></a>
                 <?php endforeach; ?>
             </div>

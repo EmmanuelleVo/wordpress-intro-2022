@@ -2,6 +2,11 @@
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <main class="layout single-trip">
 	<h2 class="layout__title"><?= get_the_title() ?></h2>
+    <dl class="single-trip__taxonomies">
+        <dt class="single-trip__taxonomy"><?= __('Pays', 'dw') ?>:</dt>
+        <!--<dt class="single-trip__countries"><?php /*= implode(', ', array_map(function ($term) { return $term->name; }, get_the_terms(get_the_ID(), 'country'))) */?></dt>-->
+        <dt class="single-trip__countries"><?= implode(', ', array_map(fn($term) => $term->name , get_the_terms(get_the_ID(), 'country'))) ?></dt>
+    </dl>
     <figure class="single-trip__title">
 	    <?= get_the_post_thumbnail( null, 'large', [
 		    'class' => 'trip__thumb',
